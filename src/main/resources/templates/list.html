@@ -15,7 +15,15 @@
 <body>
 
 <div class="container">
-    <h1>Items</h1>
+    <h1 class="display-4"><a href="/app/main">Items</a></h1>
+    <form th:action="@{/filteringAndPaging}">
+        <table class="table table-hover">
+            <td><p>Введите минимальную цену</p><input type="text" name="min_price"/></td>
+            <td><p>Введите максимальную цену</p><input type="text" name="max_price"/></td>
+            <td><p>Введите название продукта</p><input type="text" name="word"/></td>
+            <td align="bottom"><input type="submit" value="Применить"></td>
+        </table>
+    </form>
     <table  class="table table-hover" th:if="${items.size() > 0}">
         <thead>
         <tr>
@@ -34,6 +42,25 @@
     </table>
     <br>
     <span th:text="'Total items count (filtered): ' + ${itemsCount}" />
+
+    <!--<table>
+        <tr>
+        <td th:if="${pageItem.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/filteringAndPaging(size=${pageItem.size}, page=${pageNumber})}"
+            th:text=${pageNumber}
+            th:class="${pageNumber==pageItem.number + 1} ? active"></a>
+        </td>
+        </tr>
+    </table>-->
+
+    <nav aria-label="Pagination">
+        <ul class="pagination justify-content-center font-weight-medium">
+            <li class="page-item" th:if="${pageItem.totalPages > 0}" th:each="pageNumber : ${pageNumbers}">
+                <a class="page-link svg-icon" th:href="@{/filteringAndPaging(size=${pageItem.size}, page=${pageNumber})}"
+                   th:text=${pageNumber}></a>
+            </li>
+        </ul>
+    </nav>
 </div>
 </body>
 </html>
